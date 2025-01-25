@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(rgba(29, 53, 87, 0.9), rgba(75, 3, 85, 0.9)), 
+            url("{{ url_for('static', filename='images/Erie.gif') }}") no-repeat center center / cover;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .wrapper {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+        }
+
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .left-section {
+            flex: 1;
+            background: url("{{ url_for('static', filename='images/welcome.gif') }}") no-repeat center center / cover;
+            background-size: cover;
+        }
+
+        .right-section {
+            flex: 1;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1d3557;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: #555;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .button-group a {
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 30px;
+            color: #fff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .button-group a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .button-group a.register {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+        }
+
+        .button-group a.register:hover {
+            background: linear-gradient(135deg, #66bb6a, #388e3c);
+        }
+
+        .button-group a.login {
+            background: linear-gradient(135deg, #ff3e53, #c62828);
+        }
+
+        .button-group a.login:hover {
+            background: linear-gradient(135deg, #ff6e73, #d32f2f);
+        }
+
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+            }
+
+            .left-section {
+                height: 300px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .button-group a {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Left Section with Background Image -->
+        <div class="left-section"></div>
+
+        <!-- Right Section with Content -->
+        <div class="right-section">
+            <h1>Welcome to User Management</h1>
+            <p>Manage your users effortlessly with our clean and intuitive interface. Begin by registering or logging in to explore all features.</p>
+            <div class="button-group">
+                <a href="{{ url_for('register') }}" class="register">Register</a>
+                <a href="{{ url_for('login') }}" class="login">Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

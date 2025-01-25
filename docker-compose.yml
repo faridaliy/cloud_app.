@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      FLASK_APP: app
+      FLASK_ENV: development
+      MYSQL_HOST: db   
+      MYSQL_USER: dev 
+      MYSQL_PASSWORD: devpassword
+      MYSQL_DB: users_db
+    depends_on:
+      db:
+        condition: service_healthy 
+
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: users_db
+      MYSQL_ROOT_PASSWORD: rootpassword  # Root user password
+      MYSQL_USER: dev              # Regular user for the app
+      MYSQL_PASSWORD: devpassword       # Password for the regular user
+    volumes:
+      - ./data:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+    healthcheck:                          # Health check for MySQL, professor!
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

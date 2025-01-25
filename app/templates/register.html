@@ -1,0 +1,196 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            background: linear-gradient(rgba(149, 91, 156, 0.9), rgba(75, 3, 85, 0.9)),
+            url("{{ url_for('static', filename='images/bglog.gif') }}") no-repeat center center / cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            height: 80vh;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-section {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-section {
+            flex: 1;
+            background-color: #e6d6f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .right-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("{{ url_for('static', filename='images/illustration.png') }}") no-repeat center center / cover;
+            background-size: contain;
+            z-index: 1;
+        }
+
+        .right-section .overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.6);
+            z-index: 2;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #6a1b9a;
+            margin-bottom: 25px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            background: #f9f9f9;
+        }
+
+        input:focus, select:focus {
+            border-color: #6a1b9a;
+            box-shadow: 0 0 8px rgba(106, 27, 154, 0.3);
+        }
+
+        button {
+            background: #6a1b9a;
+            color: white;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #4a148c;
+        }
+
+        .home-button {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .home-button a {
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background: #6a1b9a;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .home-button a:hover {
+            background: #4a148c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <h2>Create Account</h2>
+            <form method="POST" action="{{ url_for('register') }}" onsubmit="return validateLatLong()">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+
+                <label for="location">Country</label>
+                <select id="location" name="location" required>
+                    <option value="">Select your country</option>
+                    <option value="USA">USA</option>
+                    <option value="UK">UK</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="India">India</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                </select>
+
+                <label for="latlong">Latitude, Longitude</label>
+                <input type="text" id="latlong" name="latlong" placeholder="Enter Latitude, Longitude (e.g. 40.7128, -74.0060)" 
+                       pattern="^-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?$" 
+                       title="Please enter valid coordinates in the format: 40.7128, -74.0060" required>
+
+                <button type="submit">Register</button>
+            </form>
+
+            <div class="home-button">
+                <a href="{{ url_for('home') }}">Go to Home</a>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="overlay"></div>
+        </div>
+    </div>
+
+    <script>
+        function validateLatLong() {
+            var latlong = document.getElementById('latlong').value;
+            var latlongRegex = /^-?\d+(\.\d+)?,\s*-?\d+(\.\d+)?$/;
+            if (!latlongRegex.test(latlong)) {
+                alert('Invalid latitude, longitude format. Use format: 40.7128, -74.0060');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(rgba(29, 53, 87, 0.9), rgba(69, 123, 157, 0.9)), 
+            url("{{ url_for('static', filename='images/port.png') }}") no-repeat center center / cover;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            gap: 40px;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .left-panel {
+            flex: 1;
+            max-width: 45%;
+        }
+
+        .left-panel h1 {
+            font-size: 3.5rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f1faee;
+            line-height: 1.2;
+        }
+
+        .left-panel p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #e9ecef;
+            margin-bottom: 20px;
+        }
+
+        .left-panel .add-user-button {
+            display: inline-block;
+            background: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .left-panel .add-user-button:hover {
+            background-color: #45a049;
+            transform: scale(1.1);
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .right-panel {
+            flex: 1;
+            max-width: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .right-panel h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #f1faee;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .search-form input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background: #4CAF50;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .search-form button:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.4s ease;
+        }
+
+        .user-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .user-info {
+            font-size: 1rem;
+            color: #f8f9fa;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .user-info span {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .actions a.edit {
+            background: #ffcc00;
+        }
+
+        .actions a.edit:hover {
+            background: #e6b800;
+            transform: scale(1.05);
+        }
+
+        .actions a.delete {
+            background: #e63946;
+        }
+
+        .actions a.delete:hover {
+            background: #d62839;
+            transform: scale(1.05);
+        }
+
+        /* Home Button Styles */
+        .home-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1d3557;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .home-button:hover {
+            background-color: #457b9d;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <h1>User Management</h1>
+            <p>Manage your users efficiently. Edit their details or remove them from the system as needed. byAbai and Farid</p>
+            <a href="{{ url_for('add_user') }}" class="add-user-button">Add User</a>
+            <footer>Created by Farid and Abai</footer>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <h2>Manage Users</h2>
+
+            <!-- Search Form -->
+            <form method="GET" action="{{ url_for('search_users') }}" class="search-form">
+                <input type="text" name="query" placeholder="Search by name or email">
+                <button type="submit">Search</button>
+            </form>
+
+            <!-- User List -->
+            {% for user in users %}
+            <div class="user-card">
+                <div class="user-info">
+                    <strong>{{ user.name }}</strong>
+                    <span>{{ user.username }}</span>
+                </div>
+                <div class="actions">
+                    <a href="{{ url_for('edit_user', id=user.id) }}" class="edit">Edit</a>
+                    <a href="{{ url_for('delete_user', id=user.id) }}" class="delete">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Add Home Button -->
+    <a href="{{ url_for('home') }}" class="home-button">Home</a>
+</body>
+</html>

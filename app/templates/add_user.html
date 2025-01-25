@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(rgba(29, 53, 87, 0.9), rgba(75, 3, 85, 0.9)),
+            url("{{ url_for('static', filename='images/emi.png') }}") no-repeat center center / cover; 
+            color: #f9fafb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #60a5fa;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .description {
+            font-size: 1rem;
+            color: #d1d5db;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .flash-message {
+            text-align: center;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .flash-message.success {
+            background-color: #22c55e;
+        }
+
+        .flash-message.error {
+            background-color: #ef4444;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            text-align: left;
+            font-weight: 500;
+            color: #93c5fd;
+            font-size: 1rem;
+        }
+
+        input, select {
+            padding: 14px;
+            font-size: 1rem;
+            border: 2px solid #374151;
+            border-radius: 10px;
+            background: #1e293b;
+            color: #f9fafb;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #9ca3af;
+        }
+
+        input:focus, select:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+        }
+
+        button {
+            padding: 14px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(145deg, #4ade80, #22c55e);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(145deg, #22d3ee, #38bdf8);
+            transform: scale(1.05);
+        }
+
+        .cancel-button {
+            text-align: center;
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: linear-gradient(145deg, #ef4444, #f87171);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .cancel-button:hover {
+            background: linear-gradient(145deg, #f87171, #fb923c);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            button, .cancel-button {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add New User</h1>
+        <p class="description">Complete the form below to register a new user.</p>
+
+        <!-- Flash Messages -->
+        {% if error %}
+            <div class="flash-message error">{{ error }}</div>
+        {% endif %}
+
+        {% if message %}
+            <div class="flash-message success">{{ message }}</div>
+        {% endif %}
+
+        <!-- Add User Form -->
+        <form method="POST" action="{{ url_for('add_user') }}">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter full name" required>
+            </div>
+
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter email address" required>
+            </div>
+
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter a secure password" required>
+            </div>
+
+            <div>
+                <label for="location">Location:</label>
+                <select id="location" name="location" required>
+                    <option value="">Select your location</option>
+                    <option value="USA">USA</option>
+                    <option value="UK">UK</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="India">India</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="latlong">Latitude, Longitude:</label>
+                <input type="text" id="latlong" name="latlong" placeholder="Enter Latitude, Longitude (e.g. 40.7128, -74.0060)" required>
+            </div>
+
+            <button type="submit">Add User</button>
+        </form>
+
+        <a href="{{ url_for('index') }}" class="cancel-button">Cancel</a>
+    </div>
+</body>
+</html>
