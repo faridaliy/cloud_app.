@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, flash, jsonify, Response
 from flask_login import login_user, login_required, logout_user, current_user
 from app import app, db, login_manager
-from app.models import User, UserActivity  # Import UserActivity for logging
+from app.models import User, UserActivity
 import re
 import json
 
