@@ -9,13 +9,13 @@ import json
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Helper function for logging user actions
+
 def log_activity(action, user_id=None):
     activity = UserActivity(user_id=user_id, action=action)
     db.session.add(activity)
     db.session.commit()
 
-# Custom unauthorized handler
+
 @login_manager.unauthorized_handler
 def unauthorized():
     if request.endpoint not in ['register', 'home', 'login']:
