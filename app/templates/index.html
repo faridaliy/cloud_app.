@@ -204,6 +204,40 @@
             transform: scale(1.05);
         }
 
+        /* Export Buttons */
+        .export-button {
+            display: inline-block;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .export-button:hover {
+            transform: scale(1.05);
+        }
+
+        .json-button {
+            background-color: #2196f3;
+        }
+
+        .json-button:hover {
+            background-color: #1e88e5;
+        }
+
+        .text-button {
+            background-color: #ff9800;
+        }
+
+        .text-button:hover {
+            background-color: #fb8c00;
+        }
+
         /* Home Button Styles */
         .home-button {
             position: fixed;
@@ -231,7 +265,7 @@
         <!-- Left Panel -->
         <div class="left-panel">
             <h1>User Management</h1>
-            <p>Manage your users efficiently. Edit their details or remove them from the system as needed. byAbai and Farid</p>
+            <p>Manage your users efficiently. Edit their details or remove them from the system as needed.</p>
             <a href="{{ url_for('add_user') }}" class="add-user-button">Add User</a>
             <footer>Created by Farid and Abai</footer>
         </div>
@@ -239,6 +273,11 @@
         <!-- Right Panel -->
         <div class="right-panel">
             <h2>Manage Users</h2>
+            
+            <div style="margin-bottom: 20px; display: flex; gap: 10px;">
+                <a href="{{ url_for('export_data', format='json') }}" class="export-button json-button">Export as JSON</a>
+                <a href="{{ url_for('export_data', format='text') }}" class="export-button text-button">Export as Text</a>
+            </div>
 
             <!-- Search Form -->
             <form method="GET" action="{{ url_for('search_users') }}" class="search-form">
@@ -262,7 +301,8 @@
         </div>
     </div>
 
-    <!-- Add Home Button -->
+    
     <a href="{{ url_for('home') }}" class="home-button">Home</a>
 </body>
 </html>
+
